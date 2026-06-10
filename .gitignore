@@ -1,0 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Mac OS
+.DS_Store
+
+# 临时生成和输出目录
+dedup_output/
+output_*.mp4
+preview_*.jpg
+orig_*.jpg
