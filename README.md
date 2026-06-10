@@ -1,38 +1,38 @@
-# 视频去重过原创神器 (Video Dedup & Anti-plagiarism Tool)
+# Video Dedup & Anti-plagiarism Tool
 
-🚀 **一个基于 FFmpeg 与 Gradio 构建的本地化视频深度去重工具**。旨在帮助内容创作者通过底层参数调整与画面精细滤镜，绕过短视频平台机器查重审核。
+🚀 **A robust, localized video deep-deduplication tool built with FFmpeg and Gradio**. Designed to help content creators bypass machine-based plagiarism checks on major short video platforms (like TikTok, Kuaishou, etc.) through deep parameter adjustments and fine-grained visual filters.
 
-[🇬🇧 English Version](README_EN.md)
+[🇨🇳 中文版说明 (Chinese Version)](README_zh.md)
 
-## ✨ 核心特性
+## ✨ Core Features
 
-- **分级参数预设**：一键切换“轻度”、“中度”、“重度”去重方案。
-- **画面深度处理**：支持微量裁剪、动态噪点、色彩微调、暗角、微小翻转等操作。
-- **时序与音频扰乱**：支持极微变速、音量随机波动、音频频段增益、抽帧处理等。
-- **编码与元数据混淆**：清除原始视频 Meta 信息，支持动态随机 GOP 关键帧结构与 VBR 码率控制，随机追加底层二进制 MD5 混淆字节。
-- **批量与单文件支持**：支持单文件拖拽实时单帧效果预览；支持选择本地文件夹进行无感静默批量处理。
-- **100% 本地运行**：隐私极佳，不限制视频大小和处理时长。
+- **Tiered Parameter Presets**: One-click switching between "Light", "Medium", and "Heavy" deduplication presets.
+- **Deep Visual Processing**: Supports micro-cropping, dynamic film grain, color tweaking, vignette, and minor geometric flips.
+- **Temporal & Audio Obfuscation**: Features micro-speed variations, random volume fluctuations, specific audio band gain adjustments, and frame dropping/fps reduction.
+- **Encoding & Metadata Obfuscation**: Completely strips original video metadata, supports dynamic randomized GOP keyframe structures and VBR bitrates, and appends randomized hex bytes to the underlying binary file for MD5 obfuscation.
+- **Batch & Single File Support**: Drag-and-drop a single file for real-time visual frame preview; or select a local folder for completely silent, hands-free batch processing.
+- **100% Local Execution**: Excellent privacy. No file size limits, no processing time limits, and absolutely no data uploaded to the cloud.
 
-## 🛠 安装指南
+## 🛠 Installation Guide
 
-### 1. 安装 FFmpeg
-本项目依赖于底层的 `ffmpeg` 命令行工具。
+### 1. Install FFmpeg
+This project relies on the underlying `ffmpeg` command-line tool.
 - **Mac**: `brew install ffmpeg`
-- **Windows**: 使用 `winget install ffmpeg` 或手动下载配置环境变量
+- **Windows**: Use `winget install ffmpeg` or download manually and configure environment variables.
 - **Linux**: `sudo apt install ffmpeg`
 
-### 2. 安装 Python 依赖
-建议使用 Python 3.8+ 环境：
+### 2. Install Python Dependencies
+Python 3.8+ environment is recommended:
 ```bash
 pip install -r requirements.txt
 ```
 
-## 🚀 启动与使用
-在终端运行以下命令：
+## 🚀 Usage
+Run the following command in your terminal:
 ```bash
 python app.py
 ```
-终端将会输出一个本地链接（默认通常为 `http://127.0.0.1:7860`），在浏览器中打开即可进入可视化操作界面。
+The terminal will output a local URL (typically `http://127.0.0.1:7860`). Open it in your web browser to access the visual operation interface.
 
-## 📜 许可证 (License)
-本项目采用 [MIT License](LICENSE) 开源，允许自由使用、修改与分发。
+## 📜 License
+This project is licensed under the [MIT License](LICENSE), allowing you to freely use, modify, and distribute the code.
