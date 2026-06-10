@@ -11,3 +11,7 @@ dedup_output/
 output_*.mp4
 preview_*.jpg
 orig_*.jpg
+
+# 忽略个人文档
+免费短视频去重工具（支持批量处理）在线视频消重神器.pdf
+项目需求与技术实现文档.md
