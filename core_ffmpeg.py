@@ -40,6 +40,16 @@ def generate_filter_graph(video_node, audio_node, params):
     elif p_crop == "上下左右裁3%":
         v = v.filter('crop', 'iw*0.94', 'ih*0.94').filter('scale', 'iw', 'ih')
 
+    # 输出分辨率调整
+    p_res = params.get('p_res', '保持原尺寸')
+    if p_res != "保持原尺寸":
+        if "1080p" in p_res:
+            v = v.filter('scale', "if(gt(iw,ih),1920,-2)", "if(gt(iw,ih),-2,1920)")
+        elif "720p" in p_res:
+            v = v.filter('scale', "if(gt(iw,ih),1280,-2)", "if(gt(iw,ih),-2,1280)")
+        elif "4K" in p_res:
+            v = v.filter('scale', "if(gt(iw,ih),3840,-2)", "if(gt(iw,ih),-2,3840)")
+
     # 微小翻转
     if p_flip == "水平翻转":
         v = v.filter('hflip')
@@ -151,8 +161,32 @@ def get_encode_args(params):
         args['bf'] = random.randint(1, 3)
         args['profile:v'] = random.choice(['main', 'high'])
         
-    # 码率浮动
-    if p_bitrate == "动态VBR控制":
+    # 目标码率控制
+    p_target_bitrate = params.get('p_target_bitrate', '自动 (CRF 高画质)')
+    if p_target_bitrate != "自动 (CRF 高画质)":
+        if "2Mbps" in p_target_bitrate:
+            args['b:v'] = '2M'
+            args['maxrate'] = '2.5M'
+            args['bufsize'] = '4M'
+            args.pop('crf', None)
+        elif "5Mbps" in p_target_bitrate:
+            args['b:v'] = '5M'
+            args['maxrate'] = '6M'
+            args['bufsize'] = '10M'
+            args.pop('crf', None)
+        elif "8Mbps" in p_target_bitrate:
+            args['b:v'] = '8M'
+            args['maxrate'] = '10M'
+            args['bufsize'] = '16M'
+            args.pop('crf', None)
+        elif "15Mbps" in p_target_bitrate:
+            args['b:v'] = '15M'
+            args['maxrate'] = '18M'
+            args['bufsize'] = '30M'
+            args.pop('crf', None)
+
+    # 随机码率浮动 (仅在未指定固定码率时生效)
+    if p_bitrate == "动态VBR控制" and 'maxrate' not in args:
         args['maxrate'] = '5M'
         args['bufsize'] = '10M'
         
@@ -221,3 +255,25 @@ def extract_original_frame(input_path, output_path):
         return True
     except:
         return False
+
+def compress_video(input_path, output_path, crf=28, preset="slower"):
+    """
+    极致压缩视频
+    """
+    try:
+        in_file = ffmpeg.input(input_path)
+        out = ffmpeg.output(
+            in_file, 
+            output_path, 
+            vcodec='libx264', 
+            acodec='aac', 
+            crf=crf, 
+            preset=preset,
+            map_metadata='-1' # 清除冗余元数据
+        )
+        out.run(overwrite_output=True, capture_stdout=True, capture_stderr=True)
+        return True, "极致压缩成功"
+    except ffmpeg.Error as e:
+        return False, e.stderr.decode('utf8', errors='ignore')
+    except Exception as e:
+        return False, str(e)
